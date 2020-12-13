@@ -19,6 +19,12 @@ gem 'puma', '~> 4.1'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
+# ORM extension that logs all changes to your models
+gem "audited", "~> 4.9"
+# Flexible authentication solution
+gem 'devise'
+gem 'devise_token_auth'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
