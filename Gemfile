@@ -34,6 +34,13 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails'
+  # factory_bot is a fixtures replacement with a straightforward definition syntax
+  gem 'factory_bot_rails'
+  # The main goal of the project is to provide an easy way to maintain FactoryBot inside your project in a good shape.
+  gem 'factory_trace'
+  # Set of matchers and helpers to allow you test your APIs responses like a pro.
+  gem 'rspec-json_expectations'
 end
 
 group :development do
@@ -42,6 +49,23 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
+
+group :test do
+  # Shoulda Matchers provides RSpec- and Minitest-compatible one-liners to test common Rails functionality that, if written by hand, would be much longer, more complex, and error-prone.
+  gem 'shoulda-matchers', '~> 4.0'
+  # SimpleCov is a code coverage analysis tool for Ruby
+  gem 'simplecov', require: false
+  # Database Cleaner is a set of gems containing strategies for cleaning your database in Ruby.
+  gem 'database_cleaner-active_record'
+end
+
+gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
+# Generates Brazilian CPF and CNPJ numbers for use in testing
+gem 'cpf_faker'
+
+# admin panel
+gem 'rails_admin_rollincode', '~> 1.0'
+gem 'rails_admin', '~> 2.0'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
