@@ -10,10 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_13_131900) do
+ActiveRecord::Schema.define(version: 2021_01_10_055141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "street"
+    t.string "neighborhood"
+    t.string "city"
+    t.string "state"
+    t.string "country", default: "BR"
+    t.string "number"
+    t.string "complement"
+    t.string "postal_code"
+    t.bigint "company_id"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
 
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
@@ -37,4 +53,48 @@ ActiveRecord::Schema.define(version: 2020_12_13_131900) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
+  create_table "business_substores", force: :cascade do |t|
+    t.string "name"
+    t.bigint "business_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["business_id"], name: "index_business_substores_on_business_id"
+  end
+
+  create_table "businesses", force: :cascade do |t|
+    t.string "name"
+    t.string "tax_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "social_security_number"
+    t.bigint "business_substore_id"
+    t.integer "role"
+    t.boolean "active", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.integer "failed_attempts", default: 0, null: false
+    t.string "unlock_token"
+    t.datetime "locked_at"
+    t.index ["business_substore_id"], name: "index_users_on_business_substore_id"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  add_foreign_key "addresses", "users"
+  add_foreign_key "business_substores", "businesses"
+  add_foreign_key "users", "business_substores"
 end
