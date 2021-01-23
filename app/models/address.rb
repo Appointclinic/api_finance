@@ -32,7 +32,7 @@ class Address < ApplicationRecord
 
   ##
   # Relationships
-  belongs_to :company, class_name: 'BusinessSubstore', foreign_key: :company_id, optional: true
+  belongs_to :company, optional: true
   belongs_to :user, optional: true
 
   ##

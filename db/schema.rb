@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_10_055141) do
+ActiveRecord::Schema.define(version: 2021_01_22_152612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,25 +53,33 @@ ActiveRecord::Schema.define(version: 2021_01_10_055141) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
-  create_table "business_substores", force: :cascade do |t|
-    t.string "name"
-    t.bigint "business_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["business_id"], name: "index_business_substores_on_business_id"
-  end
-
-  create_table "businesses", force: :cascade do |t|
+  create_table "companies", force: :cascade do |t|
     t.string "name"
     t.string "tax_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "company_unities", force: :cascade do |t|
+    t.string "name"
+    t.bigint "company_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["company_id"], name: "index_company_unities_on_company_id"
+  end
+
+  create_table "jwt_denylist", force: :cascade do |t|
+    t.string "jti", null: false
+    t.datetime "exp", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["jti"], name: "index_jwt_denylist_on_jti"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "social_security_number"
-    t.bigint "business_substore_id"
+    t.bigint "company_unity_id"
     t.integer "role"
     t.boolean "active", default: true
     t.datetime "created_at", precision: 6, null: false
@@ -89,12 +97,12 @@ ActiveRecord::Schema.define(version: 2021_01_10_055141) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
-    t.index ["business_substore_id"], name: "index_users_on_business_substore_id"
+    t.index ["company_unity_id"], name: "index_users_on_company_unity_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "addresses", "users"
-  add_foreign_key "business_substores", "businesses"
-  add_foreign_key "users", "business_substores"
+  add_foreign_key "company_unities", "companies"
+  add_foreign_key "users", "company_unities"
 end

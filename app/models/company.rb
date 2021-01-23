@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: business
+# Table name: companies
 #
 #  id                   :bigint           not null, primary key
 #  name                 :string
@@ -8,7 +8,7 @@
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #
-class Business < ApplicationRecord
+class Company < ApplicationRecord
   ##
   # Constants
 
@@ -24,9 +24,9 @@ class Business < ApplicationRecord
 
   ##
   # Relationships
-  has_many :business_substores
-  has_many :users, through: :business_substores
-  has_many :addresses, through: :business_substores
+  has_many :company_unities
+  has_many :users, through: :company_unities
+  has_many :addresses, through: :company_unities
 
   ##
   # Validations

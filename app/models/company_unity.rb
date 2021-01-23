@@ -1,14 +1,14 @@
 # == Schema Information
 #
-# Table name: business_substores
+# Table name: company_unities
 #
 #  id                   :bigint           not null, primary key
 #  name                 :string
-#  business_id          :bigint
+#  company_id           :bigint
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #
-class BusinessSubstore < ApplicationRecord
+class CompanyUnity < ApplicationRecord
   ##
   # Constants
 
@@ -24,7 +24,7 @@ class BusinessSubstore < ApplicationRecord
 
   ##
   # Relationships
-  belongs_to :business
+  belongs_to :company
   has_many :users
   has_one :address
 
