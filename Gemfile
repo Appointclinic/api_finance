@@ -23,7 +23,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem "audited", "~> 4.9"
 # Flexible authentication solution
 gem 'devise'
-gem 'devise-jwt', '~> 0.7.0'
+gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

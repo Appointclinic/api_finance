@@ -6,6 +6,15 @@ GIT
     faker (2.15.1)
       i18n (>= 1.6, < 2)
 
+GIT
+  remote: https://github.com/lynndylanhurley/devise_token_auth.git
+  revision: c92258038c05fcc8f6a0374ccce2e63b9f8d5312
+  specs:
+    devise_token_auth (1.1.4)
+      bcrypt (~> 3.0)
+      devise (> 3.5.2, < 5)
+      rails (>= 4.2.0, < 6.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -91,21 +100,8 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    devise-jwt (0.7.0)
-      devise (~> 4.0)
-      warden-jwt_auth (~> 0.4)
     diff-lcs (1.3)
     docile (1.3.2)
-    dry-auto_inject (0.7.0)
-      dry-container (>= 0.3.4)
-    dry-configurable (0.12.0)
-      concurrent-ruby (~> 1.0)
-      dry-core (~> 0.5, >= 0.5.0)
-    dry-container (0.7.2)
-      concurrent-ruby (~> 1.0)
-      dry-configurable (~> 0.1, >= 0.1.3)
-    dry-core (0.5.0)
-      concurrent-ruby (~> 1.0)
     erubi (1.10.0)
     factory_bot (6.1.0)
       activesupport (>= 5.0.0)
@@ -128,7 +124,6 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    jwt (2.2.2)
     kaminari (1.2.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.1)
@@ -280,11 +275,6 @@ GEM
       thread_safe (~> 0.1)
     warden (1.2.9)
       rack (>= 2.0.9)
-    warden-jwt_auth (0.5.0)
-      dry-auto_inject (~> 0.6)
-      dry-configurable (~> 0.9)
-      jwt (~> 2.1)
-      warden (~> 1.2)
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -301,7 +291,7 @@ DEPENDENCIES
   cpf_faker
   database_cleaner-active_record
   devise
-  devise-jwt (~> 0.7.0)
+  devise_token_auth!
   factory_bot_rails
   factory_trace
   faker!

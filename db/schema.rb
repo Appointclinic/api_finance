@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_22_152612) do
+ActiveRecord::Schema.define(version: 2021_01_23_052631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,14 +68,6 @@ ActiveRecord::Schema.define(version: 2021_01_22_152612) do
     t.index ["company_id"], name: "index_company_unities_on_company_id"
   end
 
-  create_table "jwt_denylist", force: :cascade do |t|
-    t.string "jti", null: false
-    t.datetime "exp", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["jti"], name: "index_jwt_denylist_on_jti"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "social_security_number"
@@ -97,9 +89,14 @@ ActiveRecord::Schema.define(version: 2021_01_22_152612) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
+    t.string "provider", default: "email", null: false
+    t.string "uid", default: "", null: false
+    t.boolean "allow_password_change", default: false
+    t.json "tokens"
     t.index ["company_unity_id"], name: "index_users_on_company_unity_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
   add_foreign_key "addresses", "users"

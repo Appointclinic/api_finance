@@ -5,7 +5,7 @@
 #  id                     :bigint           not null, primary key
 #  name                   :string
 #  social_security_number :string
-#  company_unities_id     :bigint
+#  company_unity_id       :bigint
 #  role                   :integer
 #  active                 :boolean          default(TRUE)
 #  created_at             :datetime         not null
@@ -23,6 +23,10 @@
 #  failed_attempts        :integer          default(0), not null
 #  unlock_token           :string
 #  locked_at              :datetime
+#  provider               :string           default("email"), not null
+#  uid                    :string           default(""), not null
+#  allow_password_change  :boolean          default(false)
+#  tokens                 :json
 #
 class User < ApplicationRecord
   ##
@@ -38,15 +42,13 @@ class User < ApplicationRecord
   ##
   # Behaviours
   audited
-  # has_secure_password
-
   devise :database_authenticatable, :recoverable,
-         :rememberable, :validatable, :lockable, :trackable,
-         :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
+         :rememberable, :trackable, :validatable, :lockable
+  include DeviseTokenAuth::Concerns::User
 
   ##
   # Relationships
-  belongs_to :company_unities
+  belongs_to :company_unity
   has_one :address
 
   ##
@@ -63,17 +65,4 @@ class User < ApplicationRecord
 
   ##
   # Instance Methods
-  def generate_jwt
-    JWT.encode({
-      user: [
-        id: self.id,
-        name: self.name,
-        email: self.email,
-        role: self.role,
-        active: self.active
-      ],
-      exp: 10.days.from_now.to_i
-    },
-    Rails.application.credentials.dig(:secret_key_base))
-  end
 end

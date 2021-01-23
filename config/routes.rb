@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users, path: '',
-             path_names: { sign_in: 'login', sign_out: 'logout' },
-             controllers: { sessions: 'users/sessions' }
+  mount_devise_token_auth_for 'User', at: 'auth'
+  # devise_for :users, path: '',
+  #            path_names: { sign_in: 'login', sign_out: 'logout' },
+  #            controllers: { sessions: 'users/sessions' }
 
   namespace :api, defaults: { formats: :json } do
     namespace :v1 do
