@@ -15,10 +15,10 @@ AppointClinic Finances API :dollar:
 2. `rake db:create db:migrate`
 3. Done!
 
-## [Docs :book:](https://devise-token-auth.gitbook.io/devise-token-auth)
+## [Docs :book:](https://github.com/Appointclinic/api_finance/tree/master/docs)
 * Users:
-	* [Authentication](https://github.com/Appointclinic/api_finance/docs/users/authentication.md)
-	* [Create user](https://github.com/Appointclinic/api_finance/docs/users/new_user.md)
+	* [Authentication](https://github.com/Appointclinic/api_finance/blob/master/docs/users/authentication.md)
+	* [Create user](https://github.com/Appointclinic/api_finance/blob/master/docs/users/new_user.md)
 
 ## Testing :construction:
 
