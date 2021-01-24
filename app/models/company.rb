@@ -30,7 +30,8 @@ class Company < ApplicationRecord
 
   ##
   # Validations
-  validates_presence_of :name, :tax_id
+  validates_presence_of :name
+  validates_presence_of :tax_id, length: { is: 14 }, numericality: { only_integer: true }
 
   ##
   # Callbacks
