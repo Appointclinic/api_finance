@@ -30,3 +30,6 @@
 config/credentials.yml.enc
 config/database.yml
 config/env.yml
+
+# Coverage results
+coverage
