@@ -37,7 +37,7 @@ class User < ApplicationRecord
 
   ##
   # Enums
-  enum role: { common: 0, adm: 1, manager: 2 }
+  enum role: { common: 0, adm: 1, manager: 2, finances_manager: 3, attendant: 4 }
 
   ##
   # Behaviours
@@ -53,6 +53,9 @@ class User < ApplicationRecord
 
   ##
   # Validations
+  validates_presence_of :name, length: { minimum: 3, maximum: 30 }
+  validates_presence_of :social_security_number, length: { is: 11 }, numericality: { only_integer: true }
+  validates_presence_of :role, in: 0..4
 
   ##
   # Callbacks

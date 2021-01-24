@@ -1,14 +1,13 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
-  # devise_for :users, path: '',
-  #            path_names: { sign_in: 'login', sign_out: 'logout' },
-  #            controllers: { sessions: 'users/sessions' }
 
   namespace :api, defaults: { formats: :json } do
     namespace :v1 do
-      resources :users
-      resources :business_substores
-      resources :businesses
+      authenticated :user do        
+        resources :users
+        resources :business_substores
+        resources :businesses
+      end
     end
   end
 
