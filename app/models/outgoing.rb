@@ -15,13 +15,17 @@ class Outgoing < ApplicationRecord
 
   def split_outgoing
     if self.upfront_payment.present?
+      split_values = (self.value - self.upfront_payment) / (self.split_quantity - 1)
       self.value = self.upfront_payment
-      split_values = (self.value - self.upfront_payment) / self.split_quantity
     else
       split_values = self.value / self.split_quantity
+      self.value = split_values
     end
 
-    self.split_quantity.times do |i|
+    splits = self.split_quantity - 1
+
+    splits.times do |i|
+      i += 1
       Outgoing.create(
         cash_account_id:        self.cash_account_id,
         parent_id:              self.id,
@@ -34,7 +38,7 @@ class Outgoing < ApplicationRecord
         kind:                   self.kind,
         split:                  false,
         repeat:                 false,
-        due_date:               self.due_date + 1.month,
+        due_date:               self.due_date + i.month,
         paid:                   false
       )
     end
@@ -43,7 +47,9 @@ class Outgoing < ApplicationRecord
   end
 
   def repeat_outgoing
-    self.repeat_occurrency.times do |i|
+    reps = self.repeat_occurrency - 1
+    reps.times do |i|
+      i += 1
       due_date = self.set_due_date(self.repeat_period, self.due_date, i)
 
       Outgoing.create(
@@ -53,7 +59,7 @@ class Outgoing < ApplicationRecord
         client_identification:  self.client_identification,
         value:                  self.value,
         observations:           self.observations,
-        description:            'Pagamento ' + i.to_s + ' de ' + self.repeat_occurrency + ' de: ' + self.description,
+        description:            'Pagamento ' + i.to_s + ' de ' + self.repeat_occurrency.to_s + ' de: ' + self.description,
         bank_account_id:        self.bank_account_id,
         kind:                   self.kind,
         split:                  false,
@@ -76,7 +82,7 @@ class Outgoing < ApplicationRecord
     when 'weekly'
       return due_date + i.week
     when 'biweekly'
-      return due_date + (i + 1).week
+      return due_date + (i * 15).days
     when 'monthly'
       return due_date + i.month
     when 'yearly'
