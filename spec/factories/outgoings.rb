@@ -1,22 +1,25 @@
 FactoryBot.define do
   factory :outgoing do
-    client_name { "MyString" }
-    cash_account { nil }
-    client_identification { "MyString" }
-    value { "9.99" }
-    expense { false }
-    observations { "MyText" }
-    description { "MyString" }
-    bank_account_id { "" }
-    kind { "MyString" }
-    split { false }
-    repeat { false }
-    repeat_period { "MyString" }
-    repeat_occurrency { "MyString" }
-    upfront_payment { "9.99" }
-    split_quantity { 1 }
-    due_date { "2021-01-26" }
-    paid { false }
-    paid_at { "2021-01-26" }
+    client_name { Faker::Name.name }
+    client_identification { Faker::CPF.numeric }
+    observations { Faker::Lorem.sentence(word_count: 6) }
+    description { Faker::Lorem.sentence(word_count: 3) }
+
+    trait :repeated do
+      repeat { true }
+    end
+
+    trait :splited do
+      split { true }
+    end
+
+    trait :paid do
+      paid { true }
+      paid_at { Date.today }
+    end
   end
+
+  factory :repeated,  traits: [:repeated]
+  factory :splited,  traits: [:splited]
+  factory :paid,  traits: [:paid]
 end

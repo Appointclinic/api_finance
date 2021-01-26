@@ -1,6 +1,6 @@
-class CashAccountsController < ApplicationController
-  before_action :set_cash_account, only: [:show, :update, :destroy]
-  before_action :authenticate_user!
+class Api::V1::CashAccountsController < ApplicationController
+  before_action :set_cash_account, only: [:show, :update, :destroy, :make_account]
+  # before_action :authenticate_user!
 
   # GET /cash_accounts
   def index
@@ -39,6 +39,16 @@ class CashAccountsController < ApplicationController
     @cash_account.destroy
   end
 
+  def make_account
+    @cash_account.update(enclosing: Date.today, responsible: params[:responsible], closed: true)
+    @cash_account.check_enclosure
+    @cash_account.set_total
+
+    CashAccount.create!(company_unity: @cash_account.company_unity)
+
+    render json: @cash_account, status: :ok
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_cash_account
@@ -47,6 +57,6 @@ class CashAccountsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def cash_account_params
-      params.require(:cash_account).permit(:company_unity_id, :enclosing, :responsible, :total_registered)
+      params.permit(:company_unity_id, :enclosing, :responsible, :total_registered)
     end
 end

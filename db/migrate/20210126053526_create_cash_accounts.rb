@@ -3,6 +3,7 @@ class CreateCashAccounts < ActiveRecord::Migration[6.0]
     create_table :cash_accounts do |t|
       t.belongs_to :company_unity, null: false, foreign_key: true
       t.date :enclosing
+      t.boolean :closed, default: false
       t.string :responsible
       t.decimal :total_registered
 

@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_054301) do
   create_table "cash_accounts", force: :cascade do |t|
     t.bigint "company_unity_id", null: false
     t.date "enclosing"
+    t.boolean "closed", default: false
     t.string "responsible"
     t.decimal "total_registered"
     t.datetime "created_at", precision: 6, null: false

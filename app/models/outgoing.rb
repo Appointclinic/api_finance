@@ -6,6 +6,8 @@ class Outgoing < ApplicationRecord
   enum repeat_period: { daily: 0, weekly: 1, biweekly: 2, monthly: 3, yearly: 4 }
   enum kind: { money: 0, credit_card: 1, debit_card: 2, cheque: 3, billet: 4, bank_transfer: 5 }
 
+  scope :paid, -> { where(paid: true) }
+
   after_create :split_outgoing, if: :is_splited?
   after_create :repeat_outgoing, if: :is_repeated?
   after_create :check_paid
@@ -37,7 +39,7 @@ class Outgoing < ApplicationRecord
 
   def repeat_outgoing
     self.repeat_occurrency.times do |i|
-      due_date = self.set_due_date(self.due_date, i)
+      due_date = self.set_due_date(self.repeat_period, self.due_date, i)
 
       Outgoing.create(
         cash_account_id:        self.cash_account_id,
@@ -57,8 +59,8 @@ class Outgoing < ApplicationRecord
     end
   end
 
-  def set_due_date(due_date, i)
-    case due_date
+  def set_due_date(period, due_date, i)
+    case period
     when 'daily'
       return due_date + i.day
     when 'weekly'
@@ -84,5 +86,9 @@ class Outgoing < ApplicationRecord
 
   def is_expense?
     return self.expense
+  end
+
+  def check_paid
+    self.update(paid: true) if self.paid_at.present?
   end
 end

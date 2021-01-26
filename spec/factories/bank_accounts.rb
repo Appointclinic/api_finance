@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :bank_account do
-    name { "MyString" }
+    name { Faker::Name.name }
     initial_value { "9.99" }
   end
 end
