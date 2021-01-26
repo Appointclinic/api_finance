@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_23_052631) do
+ActiveRecord::Schema.define(version: 2021_01_26_054301) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,25 @@ ActiveRecord::Schema.define(version: 2021_01_23_052631) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
+  create_table "bank_accounts", force: :cascade do |t|
+    t.string "name"
+    t.decimal "initial_value"
+    t.bigint "company_unity_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["company_unity_id"], name: "index_bank_accounts_on_company_unity_id"
+  end
+
+  create_table "cash_accounts", force: :cascade do |t|
+    t.bigint "company_unity_id", null: false
+    t.date "enclosing"
+    t.string "responsible"
+    t.decimal "total_registered"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["company_unity_id"], name: "index_cash_accounts_on_company_unity_id"
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string "name"
     t.string "tax_id"
@@ -66,6 +85,55 @@ ActiveRecord::Schema.define(version: 2021_01_23_052631) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["company_id"], name: "index_company_unities_on_company_id"
+  end
+
+  create_table "incomings", force: :cascade do |t|
+    t.bigint "cash_account_id", null: false
+    t.bigint "parent_id"
+    t.string "client_name"
+    t.string "client_identification"
+    t.decimal "value"
+    t.text "observations"
+    t.string "description"
+    t.bigint "bank_account_id"
+    t.integer "kind"
+    t.boolean "split", default: false
+    t.boolean "repeat", default: false
+    t.integer "repeat_period"
+    t.integer "repeat_occurrency"
+    t.decimal "upfront_payment"
+    t.integer "split_quantity"
+    t.date "due_date"
+    t.boolean "paid", default: false
+    t.date "paid_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cash_account_id"], name: "index_incomings_on_cash_account_id"
+  end
+
+  create_table "outgoings", force: :cascade do |t|
+    t.string "client_name"
+    t.bigint "cash_account_id", null: false
+    t.bigint "parent_id"
+    t.string "client_identification"
+    t.decimal "value"
+    t.boolean "expense", default: false
+    t.text "observations"
+    t.string "description"
+    t.bigint "bank_account_id"
+    t.integer "kind"
+    t.boolean "split", default: false
+    t.boolean "repeat", default: false
+    t.integer "repeat_period"
+    t.integer "repeat_occurrency"
+    t.decimal "upfront_payment"
+    t.integer "split_quantity"
+    t.date "due_date"
+    t.boolean "paid", default: false
+    t.date "paid_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cash_account_id"], name: "index_outgoings_on_cash_account_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -100,6 +168,10 @@ ActiveRecord::Schema.define(version: 2021_01_23_052631) do
   end
 
   add_foreign_key "addresses", "users"
+  add_foreign_key "bank_accounts", "company_unities"
+  add_foreign_key "cash_accounts", "company_unities"
   add_foreign_key "company_unities", "companies"
+  add_foreign_key "incomings", "cash_accounts"
+  add_foreign_key "outgoings", "cash_accounts"
   add_foreign_key "users", "company_unities"
 end

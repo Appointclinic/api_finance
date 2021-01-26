@@ -27,6 +27,10 @@ class CompanyUnity < ApplicationRecord
   belongs_to :company
   has_many :users
   has_one :address
+  has_many :bank_accounts
+  has_many :cash_accounts
+  has_many :incomings
+  has_many :outgoings
 
   ##
   # Validations

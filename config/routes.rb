@@ -3,10 +3,14 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { formats: :json } do
     namespace :v1 do
-      authenticated :user do        
+      authenticated :user do
         resources :users
         resources :business_substores
         resources :businesses
+        resources :outgoings
+        resources :incomings
+        resources :cash_accounts
+        resources :bank_accounts
       end
     end
   end

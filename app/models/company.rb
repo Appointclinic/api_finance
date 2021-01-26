@@ -27,6 +27,10 @@ class Company < ApplicationRecord
   has_many :company_unities
   has_many :users, through: :company_unities
   has_many :addresses, through: :company_unities
+  has_many :cash_accounts, through: :company_unities
+  has_many :bank_accounts, through: :company_unities
+  has_many :incomigns, through: :company_unities
+  has_many :outgoings, through: :company_unities
 
   ##
   # Validations
