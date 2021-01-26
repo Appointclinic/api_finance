@@ -8,15 +8,24 @@ class Incoming < ApplicationRecord
 
   scope :paid, -> { where(paid: true) }
 
+  before_create :set_empty_values
   after_create :split_incoming, if: :is_splited?
   after_create :repeat_incoming, if: :is_repeated?
   after_create :check_paid
 
   def split_incoming
-    self.value = self.upfront_payment
-    split_values = (self.value - self.upfront_payment) / self.split_quantity
+    if self.upfront_payment.present?
+      split_values = (self.value - self.upfront_payment) / (self.split_quantity - 1)
+      self.value = self.upfront_payment
+    else
+      split_values = self.value / self.split_quantity
+      self.value = split_values
+    end
 
-    self.split_quantity.times do |i|
+    splits = self.split_quantity - 1
+
+    splits.times do |i|
+      i += 1
       Incoming.create(
         cash_account_id:        self.cash_account_id,
         parent_id:              self.id,
@@ -24,12 +33,12 @@ class Incoming < ApplicationRecord
         client_identification:  self.client_identification,
         value:                  split_values,
         observations:           self.observations,
-        description:            'Parcela ' + i + ' do pagamento: ' + self.description,
+        description:            'Parcela ' + i.to_s + ' do pagamento: ' + self.description,
         bank_account_id:        self.bank_account_id,
         kind:                   self.kind,
         split:                  false,
         repeat:                 false,
-        due_date:               self.due_date + 1.month,
+        due_date:               self.due_date + i.month,
         paid:                   false
       )
     end
@@ -48,7 +57,7 @@ class Incoming < ApplicationRecord
         client_identification:  self.client_identification,
         value:                  self.value,
         observations:           self.observations,
-        description:            'Pagamento ' + i + ' de ' + self.repeat_occurrency + ' de: ' + self.description,
+        description:            'Pagamento ' + i.to_s + ' de ' + self.repeat_occurrency + ' de: ' + self.description,
         bank_account_id:        self.bank_account_id,
         kind:                   self.kind,
         split:                  false,
@@ -57,6 +66,11 @@ class Incoming < ApplicationRecord
         paid:                   false
       )
     end
+  end
+
+  def set_empty_values
+    self.description = "" if self.description.nil?
+    self.due_date = Date.today if self.due_date.nil?
   end
 
   def set_due_date(period, due_date, i)
