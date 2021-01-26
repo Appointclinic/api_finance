@@ -65,9 +65,31 @@ RSpec.describe Incoming, type: :model do
   end
 
   describe "When repeat" do
-    it "must create the right amount of incomings"
-    it "must all have the same value"
-    it "must validate the due date depending on the father"
-    it "must validate that the created incomings are associated with the first one"
+    before do
+      company = create(:company)
+      company_unity = create(:company_unity, company: company)
+      @cash_accounting = create(:cash_account, company_unity: company_unity)
+      @incoming = create(:incoming, :paid_incoming, :rep_incoming, repeat_occurrency: 4, repeat_period: 'biweekly', value: 250.00, cash_account: @cash_accounting)
+    end
+
+    it "must create the right amount of incomings" do
+      repeats = Incoming.all.count
+      expect(repeats).to eq(4)
+    end
+
+    it "must all have the same value" do
+      value = Incoming.where.not(id: @incoming.id).map{|inc|inc.value}.uniq
+      expect(value).to eq([250.00])
+    end
+
+    it "must validate the due date depending on the period" do
+      repeated = Incoming.all.map{|inc|inc.due_date}
+      expect(repeated).to eq([@incoming.due_date, @incoming.due_date + 15.days, @incoming.due_date + 30.days, @incoming.due_date + 45.days])
+    end
+
+    it "must validate that the created incomings are associated with the first one" do
+      repeated = Incoming.where.not(id: @incoming.id).map{|inc|inc.splitted}.uniq
+      expect(repeated).to eq([@incoming])
+    end
   end
 end

@@ -47,7 +47,9 @@ class Incoming < ApplicationRecord
   end
 
   def repeat_incoming
-    self.repeat_occurrency.times do |i|
+    reps = self.repeat_occurrency - 1
+    reps.times do |i|
+      i += 1
       due_date = self.set_due_date(self.repeat_period, self.due_date, i)
 
       Incoming.create(
@@ -57,7 +59,7 @@ class Incoming < ApplicationRecord
         client_identification:  self.client_identification,
         value:                  self.value,
         observations:           self.observations,
-        description:            'Pagamento ' + i.to_s + ' de ' + self.repeat_occurrency + ' de: ' + self.description,
+        description:            'Pagamento ' + i.to_s + ' de ' + self.repeat_occurrency.to_s + ' de: ' + self.description,
         bank_account_id:        self.bank_account_id,
         kind:                   self.kind,
         split:                  false,
@@ -80,7 +82,7 @@ class Incoming < ApplicationRecord
     when 'weekly'
       return due_date + i.week
     when 'biweekly'
-      return due_date + (i + 1).week
+      return due_date + (i * 15).days
     when 'monthly'
       return due_date + i.month
     when 'yearly'
