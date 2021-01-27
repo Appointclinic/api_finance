@@ -47,6 +47,6 @@ class Api::V1::CompanyUnitiesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def company_unities_params
-      params.permit(:name, :business_id)
+      params.permit(:name, :company_id)
     end
 end
