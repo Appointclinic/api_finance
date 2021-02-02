@@ -5,7 +5,6 @@
 #  id                     :bigint           not null, primary key
 #  name                   :string
 #  social_security_number :string
-#  company_unity_id       :bigint
 #  role                   :integer
 #  active                 :boolean          default(TRUE)
 #  created_at             :datetime         not null
@@ -48,7 +47,7 @@ class User < ApplicationRecord
 
   ##
   # Relationships
-  belongs_to :company_unity
+  has_and_belongs_to_many :company_unity
   has_one :address
 
   ##

@@ -25,7 +25,7 @@ class CompanyUnity < ApplicationRecord
   ##
   # Relationships
   belongs_to :company
-  has_many :users
+  has_and_belongs_to_many :users
   has_one :address
   has_many :bank_accounts
   has_many :cash_accounts

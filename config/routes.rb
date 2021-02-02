@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { formats: :json } do
     namespace :v1 do
       resources :users
-      resources :business_substores
+      resources :company_unities
       resources :businesses
       resources :outgoings
       resources :incomings

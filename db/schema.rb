@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_26_054301) do
+ActiveRecord::Schema.define(version: 2021_01_31_135559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,13 @@ ActiveRecord::Schema.define(version: 2021_01_26_054301) do
     t.index ["company_id"], name: "index_company_unities_on_company_id"
   end
 
+  create_table "company_unities_users", id: false, force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "company_unity_id"
+    t.index ["company_unity_id"], name: "index_company_unities_users_on_company_unity_id"
+    t.index ["user_id"], name: "index_company_unities_users_on_user_id"
+  end
+
   create_table "incomings", force: :cascade do |t|
     t.bigint "cash_account_id", null: false
     t.bigint "parent_id"
@@ -140,7 +147,6 @@ ActiveRecord::Schema.define(version: 2021_01_26_054301) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "social_security_number"
-    t.bigint "company_unity_id"
     t.integer "role"
     t.boolean "active", default: true
     t.datetime "created_at", precision: 6, null: false
@@ -162,7 +168,6 @@ ActiveRecord::Schema.define(version: 2021_01_26_054301) do
     t.string "uid", default: "", null: false
     t.boolean "allow_password_change", default: false
     t.json "tokens"
-    t.index ["company_unity_id"], name: "index_users_on_company_unity_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
@@ -174,5 +179,4 @@ ActiveRecord::Schema.define(version: 2021_01_26_054301) do
   add_foreign_key "company_unities", "companies"
   add_foreign_key "incomings", "cash_accounts"
   add_foreign_key "outgoings", "cash_accounts"
-  add_foreign_key "users", "company_unities"
 end

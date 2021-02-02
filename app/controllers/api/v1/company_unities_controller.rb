@@ -4,7 +4,7 @@ class Api::V1::CompanyUnitiesController < ApplicationController
 
   # GET /company_unities
   def index
-    @company_unities = CompanyUnity.all
+    @company_unities = current_user.company_unity
 
     render json: @company_unities
   end
