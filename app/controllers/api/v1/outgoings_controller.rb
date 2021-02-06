@@ -19,7 +19,7 @@ class Api::V1::OutgoingsController < ApplicationController
     @outgoing = Outgoing.new(outgoing_params)
 
     if @outgoing.save
-      render json: @outgoing, status: :created, location: @outgoing
+      render json: @outgoing, status: :created
     else
       render json: @outgoing.errors, status: :unprocessable_entity
     end

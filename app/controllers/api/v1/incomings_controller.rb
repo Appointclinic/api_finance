@@ -19,7 +19,7 @@ class Api::V1::IncomingsController < ApplicationController
     @incoming = Incoming.new(incoming_params)
 
     if @incoming.save
-      render json: @incoming, status: :created, location: @incoming
+      render json: @incoming, status: :created
     else
       render json: @incoming.errors, status: :unprocessable_entity
     end
