@@ -14,7 +14,7 @@ class Api::V1::BankAccountsController < ApplicationController
     @bank_account = BankAccount.new(bank_account_params)
 
     if @bank_account.save
-      render json: @bank_account, status: :created, location: @bank_account
+      render json: @bank_account, status: :created
     else
       render json: @bank_account.errors, status: :unprocessable_entity
     end
