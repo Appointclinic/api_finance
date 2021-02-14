@@ -1,4 +1,4 @@
-class Api::V1::CompanyUnitiesController < ApplicationController
+class Api::V1::CompanyUnitiesController < Api::ApiController
   before_action :set_company_unity, only: [:show, :update, :destroy]
   before_action :authenticate_user!
 

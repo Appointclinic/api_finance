@@ -1,4 +1,4 @@
-class Api::V1::BankAccountsController < ApplicationController
+class Api::V1::BankAccountsController < Api::ApiController
   before_action :set_bank_account, only: [:update, :destroy]
   before_action :authenticate_user!
 

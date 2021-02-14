@@ -1,4 +1,4 @@
-class Api::V1::CashAccountsController < ApplicationController
+class Api::V1::CashAccountsController < Api::ApiController
   before_action :set_cash_account, only: [:show, :update, :destroy, :make_account]
   before_action :authenticate_user!
 

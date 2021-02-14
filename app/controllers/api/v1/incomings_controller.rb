@@ -1,4 +1,4 @@
-class Api::V1::IncomingsController < ApplicationController
+class Api::V1::IncomingsController < Api::ApiController
   before_action :set_incoming, only: [:show, :update, :destroy]
   before_action :authenticate_user!
 

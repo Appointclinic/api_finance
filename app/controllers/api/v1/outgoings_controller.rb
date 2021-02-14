@@ -1,4 +1,4 @@
-class Api::V1::OutgoingsController < ApplicationController
+class Api::V1::OutgoingsController < Api::ApiController
   before_action :set_outgoing, only: [:show, :update, :destroy]
   before_action :authenticate_user!
 

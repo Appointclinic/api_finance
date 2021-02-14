@@ -25,6 +25,9 @@ gem "audited", "~> 4.9"
 gem 'devise'
 gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth'
 
+# CanCan is an authorization library for Ruby on Rails which restricts what resources a given user is allowed to access.
+gem "cancan"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 

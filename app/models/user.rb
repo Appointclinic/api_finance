@@ -67,4 +67,23 @@ class User < ApplicationRecord
 
   ##
   # Instance Methods
+  def admin?
+    self.role.eql? 'adm'
+  end
+
+  def manager?
+    self.role.eql? 'manager'
+  end
+
+  def finances_manager?
+    self.role.eql? 'finances_manager'
+  end
+
+  def attendant?
+    self.role.eql? 'attendant'
+  end
+
+  def common?
+    self.role.eql? 'common'
+  end
 end
