@@ -1,6 +1,6 @@
 class Api::V1::CashAccountsController < ApplicationController
   before_action :set_cash_account, only: [:show, :update, :destroy, :make_account]
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
 
   # GET /cash_accounts
   def index

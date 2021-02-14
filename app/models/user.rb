@@ -47,7 +47,7 @@ class User < ApplicationRecord
 
   ##
   # Relationships
-  has_and_belongs_to_many :company_unity
+  has_and_belongs_to_many :company_unities
   has_one :address
 
   ##

@@ -4,7 +4,7 @@ class Api::V1::CompanyUnitiesController < ApplicationController
 
   # GET /company_unities
   def index
-    @company_unities = current_user.company_unity
+    @company_unities = current_user.company_unities
 
     render json: @company_unities
   end
@@ -48,5 +48,9 @@ class Api::V1::CompanyUnitiesController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def company_unities_params
       params.permit(:name, :company_id)
+    end
+
+    def filter resource
+      return resource.select{|res| @current_user.in? res.users}
     end
 end
