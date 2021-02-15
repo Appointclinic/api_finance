@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_14_222006) do
+ActiveRecord::Schema.define(version: 2021_01_31_135559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,11 +142,6 @@ ActiveRecord::Schema.define(version: 2021_02_14_222006) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["cash_account_id"], name: "index_outgoings_on_cash_account_id"
-  end
-
-  create_table "table_company_unities_users", force: :cascade do |t|
-    t.bigint "company_unity_id"
-    t.bigint "user_id"
   end
 
   create_table "users", force: :cascade do |t|
