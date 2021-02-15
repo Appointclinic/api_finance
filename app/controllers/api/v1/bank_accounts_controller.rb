@@ -11,7 +11,6 @@ class Api::V1::BankAccountsController < Api::ApiController
 
   # GET /incomings/1
   def show
-    puts @bank_account
     render json: @bank_account
   end
 
@@ -43,7 +42,6 @@ class Api::V1::BankAccountsController < Api::ApiController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_bank_account
-      puts BankAccount.find(params[:id])
       @bank_account = BankAccount.find(params[:id])
     end
 
