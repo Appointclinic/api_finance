@@ -1,5 +1,5 @@
 class Api::V1::BankAccountsController < Api::ApiController
-  before_action :set_bank_account, only: [:update, :destroy]
+  before_action :set_bank_account, only: [:show, :update, :destroy]
   before_action :authenticate_user!
 
   # GET /bank_accounts
@@ -7,6 +7,12 @@ class Api::V1::BankAccountsController < Api::ApiController
     @bank_accounts = BankAccount.all
 
     render json: @bank_accounts
+  end
+
+  # GET /incomings/1
+  def show
+    puts @bank_account
+    render json: @bank_account
   end
 
   # POST /bank_accounts
@@ -37,6 +43,7 @@ class Api::V1::BankAccountsController < Api::ApiController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_bank_account
+      puts BankAccount.find(params[:id])
       @bank_account = BankAccount.find(params[:id])
     end
 
