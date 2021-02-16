@@ -1,5 +1,5 @@
 class Api::V1::BankAccountsController < Api::ApiController
-  before_action :set_bank_account, only: [:update, :destroy]
+  before_action :set_bank_account, only: [:show, :update, :destroy]
   before_action :authenticate_user!
 
   # GET /bank_accounts
@@ -7,6 +7,11 @@ class Api::V1::BankAccountsController < Api::ApiController
     @bank_accounts = BankAccount.all
 
     render json: @bank_accounts
+  end
+
+  # GET /incomings/1
+  def show
+    render json: @bank_account
   end
 
   # POST /bank_accounts
