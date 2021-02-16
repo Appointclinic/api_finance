@@ -11,7 +11,12 @@ Rails.application.routes.draw do
       resources :cash_accounts
       resources :bank_accounts
       post 'make_account', to: 'cash_accounts#make_account'
+
+      get 'dashboard', to: 'dashboard#index'
+      get 'review_cash_account', to: 'cash_accounts#review_current_accounting'
     end
+
+    post '/user/current_company_unity/:unity_id', to: 'api#set_current_user_unity'
   end
 
   mount RailsAdmin::Engine => '/adm', as: 'rails_admin'

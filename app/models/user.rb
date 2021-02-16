@@ -26,6 +26,7 @@
 #  uid                    :string           default(""), not null
 #  allow_password_change  :boolean          default(false)
 #  tokens                 :json
+#  current_unity_id       :bigint
 #
 class User < ApplicationRecord
   ##
@@ -67,6 +68,14 @@ class User < ApplicationRecord
 
   ##
   # Instance Methods
+  def current_company_unity
+    CompanyUnity.find(self.current_unity_id || self.company_unities.first.id)
+  end
+
+  def set_current_unity(unity_id)
+    self.update(current_unity_id: unity_id)
+  end
+
   def admin?
     self.role.eql? 'adm'
   end

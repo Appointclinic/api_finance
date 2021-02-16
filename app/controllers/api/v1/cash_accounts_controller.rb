@@ -9,6 +9,18 @@ class Api::V1::CashAccountsController < Api::ApiController
     render json: @cash_accounts
   end
 
+  def review_current_accounting
+    company_unity = CompanyUnity.find(params[:unity_id])
+    accounts = company_unity.bank_accounts
+    
+    total_per_account = accounts.map{|account| {
+      account_name: account.name,
+      total_value: BankAccounts::CalculateTotalService.new(account, company_unity).calc!}
+    }
+
+    render json: total_per_account
+  end
+
   # GET /cash_accounts/1
   def show
     render json: @cash_account

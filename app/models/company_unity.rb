@@ -38,6 +38,7 @@ class CompanyUnity < ApplicationRecord
 
   ##
   # Callbacks
+  after_create :create_cash_account
 
   ##
   # Scopes
@@ -47,4 +48,7 @@ class CompanyUnity < ApplicationRecord
 
   ##
   # Instance Methods
+  def create_cash_account
+    self.cash_accounts.create
+  end
 end
