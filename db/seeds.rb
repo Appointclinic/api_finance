@@ -10,7 +10,7 @@ end
 p 'Creating unities for the companies'
 Company.all.each do |company|
   rand(1..4).times do |i|
-    company.company_unities.create(name: "Unity #{i}")
+    company.company_unities.create(name: "Unidade #{i}")
   end
 end
 
@@ -19,17 +19,20 @@ end
 p 'Creating bank accounts'
 CompanyUnity.all.each do |unity|
   unity.bank_accounts.create(
-    name: 'Cash register',
+    account_name: 'Caixa da empresa',
+    institution_name: '',
     initial_value: 0,
     # institution_name: ''
   )
   unity.bank_accounts.create(
-    name: 'Debit account',
+    account_name: 'Conta de débito',
+    institution_name: 'Banco C6',
     initial_value: 1500.00,
     # institution_name: ''
   )
   unity.bank_accounts.create(
-    name: 'Credit account',
+    account_name: 'Conta de crédito',
+    institution_name: 'NuBank',
     initial_value: 0,
     # institution_name: ''
   )
@@ -42,7 +45,7 @@ CompanyUnity.all.each do |unity|
   ['common', 'adm', 'manager', 'finances_manager', 'attendant'].each do |role|
     unity.users.create(
       name: Faker::Name.name,
-      email: "#{role}#{unity.id}@test.com",
+      email: "#{role}#{unity.id}@appointclinic.com",
       password: 'test123',
       password_confirmation: 'test123',
       social_security_number: Faker::CPF.numeric,
