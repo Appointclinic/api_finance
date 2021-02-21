@@ -13,9 +13,10 @@
 ActiveRecord::Schema.define(version: 2021_02_15_190200) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "addresses", force: :cascade do |t|
+  create_table "addresses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "street"
     t.string "neighborhood"
     t.string "city"
@@ -25,7 +26,7 @@ ActiveRecord::Schema.define(version: 2021_02_15_190200) do
     t.string "complement"
     t.string "postal_code"
     t.bigint "company_id"
-    t.bigint "user_id"
+    t.uuid "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_addresses_on_user_id"
@@ -53,17 +54,17 @@ ActiveRecord::Schema.define(version: 2021_02_15_190200) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
-  create_table "bank_accounts", force: :cascade do |t|
+  create_table "bank_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.decimal "initial_value"
-    t.bigint "company_unity_id", null: false
+    t.uuid "company_unity_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["company_unity_id"], name: "index_bank_accounts_on_company_unity_id"
   end
 
-  create_table "cash_accounts", force: :cascade do |t|
-    t.bigint "company_unity_id", null: false
+  create_table "cash_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "company_unity_id", null: false
     t.date "enclosing"
     t.boolean "closed", default: false
     t.string "responsible"
@@ -73,16 +74,16 @@ ActiveRecord::Schema.define(version: 2021_02_15_190200) do
     t.index ["company_unity_id"], name: "index_cash_accounts_on_company_unity_id"
   end
 
-  create_table "companies", force: :cascade do |t|
+  create_table "companies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "tax_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "company_unities", force: :cascade do |t|
+  create_table "company_unities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
-    t.bigint "company_id", null: false
+    t.uuid "company_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["company_id"], name: "index_company_unities_on_company_id"
@@ -95,15 +96,15 @@ ActiveRecord::Schema.define(version: 2021_02_15_190200) do
     t.index ["user_id"], name: "index_company_unities_users_on_user_id"
   end
 
-  create_table "incomings", force: :cascade do |t|
-    t.bigint "cash_account_id", null: false
-    t.bigint "parent_id"
+  create_table "incomings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "cash_account_id", null: false
+    t.uuid "parent_id"
     t.string "client_name"
     t.string "client_identification"
     t.decimal "value"
     t.text "observations"
     t.string "description"
-    t.bigint "bank_account_id"
+    t.uuid "bank_account_id"
     t.integer "kind"
     t.boolean "split", default: false
     t.boolean "repeat", default: false
@@ -119,16 +120,16 @@ ActiveRecord::Schema.define(version: 2021_02_15_190200) do
     t.index ["cash_account_id"], name: "index_incomings_on_cash_account_id"
   end
 
-  create_table "outgoings", force: :cascade do |t|
+  create_table "outgoings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "client_name"
-    t.bigint "cash_account_id", null: false
-    t.bigint "parent_id"
+    t.uuid "cash_account_id", null: false
+    t.uuid "parent_id"
     t.string "client_identification"
     t.decimal "value"
     t.boolean "expense", default: false
     t.text "observations"
     t.string "description"
-    t.bigint "bank_account_id"
+    t.uuid "bank_account_id"
     t.integer "kind"
     t.boolean "split", default: false
     t.boolean "repeat", default: false
@@ -144,10 +145,9 @@ ActiveRecord::Schema.define(version: 2021_02_15_190200) do
     t.index ["cash_account_id"], name: "index_outgoings_on_cash_account_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "social_security_number"
-    t.bigint "company_unity_id"
     t.integer "role"
     t.boolean "active", default: true
     t.datetime "created_at", precision: 6, null: false
@@ -170,7 +170,6 @@ ActiveRecord::Schema.define(version: 2021_02_15_190200) do
     t.boolean "allow_password_change", default: false
     t.json "tokens"
     t.bigint "current_unity_id"
-    t.index ["company_unity_id"], name: "index_users_on_company_unity_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
@@ -182,5 +181,4 @@ ActiveRecord::Schema.define(version: 2021_02_15_190200) do
   add_foreign_key "company_unities", "companies"
   add_foreign_key "incomings", "cash_accounts"
   add_foreign_key "outgoings", "cash_accounts"
-  add_foreign_key "users", "company_unities"
 end

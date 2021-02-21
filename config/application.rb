@@ -52,5 +52,10 @@ module ApiFinance
         )
       end
     end
+
+    # Setup application to use UUID instead of the default ID
+    config.generators do |g|
+      g.orm :active_record, primary_key_type: :uuid
+    end
   end
 end
