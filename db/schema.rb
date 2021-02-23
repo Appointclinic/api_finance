@@ -55,7 +55,8 @@ ActiveRecord::Schema.define(version: 2021_02_15_190200) do
   end
 
   create_table "bank_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
+    t.string "account_name"
+    t.string "institution_name"
     t.decimal "initial_value"
     t.uuid "company_unity_id", null: false
     t.datetime "created_at", precision: 6, null: false
