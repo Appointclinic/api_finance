@@ -1,10 +1,11 @@
 class Api::V1::CashAccountsController < Api::ApiController
   before_action :set_cash_account, only: [:show, :update, :destroy, :make_account]
   before_action :authenticate_user!
+  load_and_authorize_resource
 
   # GET /cash_accounts
   def index
-    @cash_accounts = CashAccount.all
+    @cash_accounts = current_user.current_company_unity.cash_accounts
 
     render json: @cash_accounts
   end

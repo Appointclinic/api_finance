@@ -48,6 +48,10 @@ class CashAccount < ApplicationRecord
     def current_opened_accounting(company_unity)
       where(company_unity_id: company_unity.id).open.last
     end
+
+    def all_opened_accounts(comp_unities)
+      open.select{|ca|ca.company_unity_id.in? comp_unities}
+    end
   end
 
   ##

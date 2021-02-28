@@ -14,6 +14,7 @@ class Api::V1::DashboardController < ApplicationController
     @transactions = @incomings + @outgoings
     @transactions.sort_by{ |t| t[:data][:created_at] }
 
+    # authorize! :index, cash_account
     render json: @transactions
   end
 end

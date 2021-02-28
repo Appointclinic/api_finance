@@ -1,10 +1,11 @@
 class Api::V1::UsersController < Api::ApiController
   before_action :set_user, only: [:show, :update, :destroy]
   before_action :authenticate_user!
+  load_and_authorize_resource
 
   # GET /users
   def index
-    @users = User.all
+    @users = current_user.current_company_unity.users
 
     render json: @users
   end

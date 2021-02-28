@@ -1,10 +1,11 @@
 class Api::V1::BankAccountsController < Api::ApiController
   before_action :set_bank_account, only: [:show, :update, :destroy]
   before_action :authenticate_user!
+  load_and_authorize_resource
 
   # GET /bank_accounts
   def index
-    @bank_accounts = BankAccount.all
+    @bank_accounts = current_user.current_company_unity.bank_accounts
 
     render json: @bank_accounts
   end

@@ -1,10 +1,11 @@
 class Api::V1::CompaniesController < Api::ApiController
   before_action :set_company, only: [:show, :update, :destroy]
   before_action :authenticate_user!
+  load_and_authorize_resource
 
   # GET /companies
   def index
-    @companies = Company.all
+    @companies = Company.current_user_company(current_user)
 
     render json: @companies
   end

@@ -1,6 +1,7 @@
 class Api::V1::CompanyUnitiesController < Api::ApiController
   before_action :set_company_unity, only: [:show, :update, :destroy]
   before_action :authenticate_user!
+  load_and_authorize_resource
 
   # GET /company_unities
   def index

@@ -1,10 +1,11 @@
 class Api::V1::IncomingsController < Api::ApiController
   before_action :set_incoming, only: [:show, :update, :destroy]
   before_action :authenticate_user!
+  load_and_authorize_resource
 
   # GET /incomings
   def index
-    @incomings = Incoming.all
+    @incomings = CashAccount.current_opened_accounting(@current_user.current_company_unity).incomings
 
     render json: @incomings
   end

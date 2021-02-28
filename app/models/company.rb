@@ -45,6 +45,11 @@ class Company < ApplicationRecord
 
   ##
   # Class Methods
+  class <<  self
+    def current_user_company(user)
+      select { |company| company.id.in? user.company_unities.pluck(:company_id) }
+    end
+  end
 
   ##
   # Instance Methods

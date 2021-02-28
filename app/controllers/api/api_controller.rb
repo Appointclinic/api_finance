@@ -1,5 +1,4 @@
 class Api::ApiController < ApplicationController
-  # load_and_authorize_resource
 
   def set_current_user_unity
     @current_user.set_current_unity(params[:unity_id])

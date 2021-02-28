@@ -84,7 +84,7 @@ GEM
       msgpack (~> 1.0)
     builder (3.2.4)
     byebug (11.1.3)
-    cancan (1.6.10)
+    cancancan (3.1.0)
     choice (0.2.0)
     clipboard (1.3.5)
     concurrent-ruby (1.1.7)
@@ -289,7 +289,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)
   byebug
-  cancan
+  cancancan
   cpf_faker
   database_cleaner-active_record
   devise

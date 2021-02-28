@@ -1,6 +1,6 @@
 class CreateAddresses < ActiveRecord::Migration[6.0]
   def change
-    create_table :addresses, id: :uuid do |t|
+    create_table :addresses do |t|
       t.string :street
       t.string :neighborhood
       t.string :city
@@ -10,7 +10,7 @@ class CreateAddresses < ActiveRecord::Migration[6.0]
       t.string :complement
       t.string :postal_code
       t.bigint :company_id
-      t.belongs_to :user, type: :uuid, null: true, foreign_key: true
+      t.belongs_to :user, null: true, foreign_key: true
 
       t.timestamps
     end
